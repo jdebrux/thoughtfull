@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "948124034039",
+    "project_id": "thoughtfull-fcf88",
+    "storage_bucket": "thoughtfull-fcf88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948124034039:android:f35cf6bf4392fb99f6c4f2",
+        "android_client_info": {
+          "package_name": "com.example.thoughtfull2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948124034039-qt3iiigo7r2suqcfi6ks8ombjoq16d3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxVVpS4SYfGSkh8s1p29crHqrMQ3apF_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948124034039-qt3iiigo7r2suqcfi6ks8ombjoq16d3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
