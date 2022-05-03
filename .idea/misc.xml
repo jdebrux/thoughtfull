@@ -20,7 +20,7 @@
         <entry key="app/src/main/res/drawable/selector.xml" value="0.2155" />
         <entry key="app/src/main/res/font/font.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/font/quicksand.xml" value="0.31666666666666665" />
-        <entry key="app/src/main/res/layout/activity_add_thought.xml" value="0.1785186767578125" />
+        <entry key="app/src/main/res/layout/activity_add_thought.xml" value="0.29004329004329005" />
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35507246376811596" />
@@ -31,7 +31,7 @@
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_temp.xml" value="0.14361702127659576" />
         <entry key="app/src/main/res/layout/popup.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/row_past.xml" value="0.15436241610738255" />
+        <entry key="app/src/main/res/layout/row_past.xml" value="1.226462886573416" />
         <entry key="app/src/main/res/layout/row_thoughts.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/menu/menu_nav.xml" value="0.1" />

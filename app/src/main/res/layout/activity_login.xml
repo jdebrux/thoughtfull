@@ -12,11 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textColorHint="@color/colorWhite"
+        android:textColor="@color/colorWhite"
         android:id="@+id/emailTIL">
         <EditText
             android:id="@+id/emailEt"
             android:inputType="textEmailAddress"
             android:hint="Email"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background"/>
@@ -27,6 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textColorHint="@color/colorWhite"
+        android:textColor="@color/colorWhite"
         android:id="@+id/passwordTIL"
         android:layout_below="@+id/emailTIL"
         app:passwordToggleEnabled="true">
@@ -34,6 +40,8 @@
             android:id="@+id/passwordEt"
             android:inputType="textPassword"
             android:hint="Password"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background"/>

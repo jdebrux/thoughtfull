@@ -144,7 +144,7 @@ public class ProfileFragment extends Fragment {
                     emailTv.setText(email);
                     try {
                         //if image is received then
-                        Picasso.get().load(image).into(profilePicIv);
+                        Picasso.get().load(image).rotate(90).into(profilePicIv);
                     } catch (Exception e) {
                         //if there is any exception while getting image then set default
                         Picasso.get().load(R.drawable.choco).into(profilePicIv);

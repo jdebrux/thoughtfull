@@ -18,6 +18,8 @@
             android:id="@+id/titleEt"
             android:padding="10dp"
             android:hint="Enter Title..."
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
             android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -26,7 +28,8 @@
             android:id="@+id/descriptionEt"
             android:padding="10dp"
             android:hint="Enter Description..."
-            android:inputType="textCapSentences|textMultiLine"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"            android:inputType="textCapSentences|textMultiLine"
             android:minHeight="120dp"
             android:gravity="start"
             android:layout_width="match_parent"
@@ -37,6 +40,8 @@
             android:padding="10dp"
             android:inputType="time"
             android:hint="Enter End Time"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:singleLine="true"
@@ -49,6 +54,8 @@
             android:padding="10dp"
             android:inputType="date"
             android:hint="Enter End Date"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:singleLine="true"
@@ -67,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remind Me"
+            android:textColor="@color/colorWhite"
             android:layout_gravity="end"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -75,9 +83,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lock Until End"
+            android:textColor="@color/colorWhite"
             android:layout_gravity="end"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
-
 
         <Button
             android:id="@+id/pUploadBtn"
