@@ -1,8 +1,8 @@
 package com.example.thoughtfull2.adapters;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,9 +26,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.thoughtfull2.MyBroadcastReceiver;
 import com.example.thoughtfull2.R;
 import com.example.thoughtfull2.models.ModelThoughtPost;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -79,7 +79,7 @@ public class AdapterThought extends RecyclerView.Adapter<AdapterThought.MyHolder
         //get data
         final String uid = postList.get(position).getUid();
         String uName = postList.get(position).getuName();
-        String uDp = postList.get(position).getuDp();
+        String uDp = postList.get(position).getuPp();
         String pId = postList.get(position).getpId();
         String pTitle = postList.get(position).getTitle();
         String pDescription = postList.get(position).getDescription();
@@ -95,6 +95,9 @@ public class AdapterThought extends RecyclerView.Adapter<AdapterThought.MyHolder
         String pTime = DateFormat.format("dd/MM/yyyy HH:mm", calendar).toString();
 
         calendar.setTimeInMillis(Long.parseLong(endTime));
+        if (remind) {
+            startAlert(Long.parseLong(endTime), pTitle);
+        }
         long currentTime = System.currentTimeMillis();
         new CountDownTimer(Long.parseLong(endTime) - currentTime, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -109,15 +112,12 @@ public class AdapterThought extends RecyclerView.Adapter<AdapterThought.MyHolder
 
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
 
-                holder.pEndTv.setText(days + ":" + hours + ":" + minutes + ":" + seconds); //You can compute the millisUntilFinished on hours/minutes/seconds
+                holder.pEndTv.setText(days + "d :" + hours + "h :" + minutes + "m :" + seconds + "s"); //You can compute the millisUntilFinished on hours/minutes/seconds
             }
 
-            // When the task is over it will print 00:00:00 there
+            // When the task is over it will display finished there
             public void onFinish() {
                 holder.pEndTv.setText("Finished");
-                if (remind) {
-                    showNotification(pTitle);
-                }
                 archiveThought(pId);
             }
         }.start();
@@ -204,33 +204,6 @@ public class AdapterThought extends RecyclerView.Adapter<AdapterThought.MyHolder
 
     }
 
-    private void showNotification(String pTitle) {
-        createNotificationChannel();
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "1")
-                .setSmallIcon(R.drawable.ic_notify)
-                .setContentTitle(pTitle + " has expired!")
-                .setContentText("Thought will be moved to past thoughts for further review.");
-
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(111, mBuilder.build());
-    }
-
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "thought_notifcations";
-            String description = "channel_description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("1", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
     private void showAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater li = LayoutInflater.from(context);
@@ -239,6 +212,15 @@ public class AdapterThought extends RecyclerView.Adapter<AdapterThought.MyHolder
         builder.setView(popupView);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void startAlert(long endTime, String pTitle) {
+        Intent intent = new Intent(context, MyBroadcastReceiver.class);
+        intent.putExtra(pTitle, "pTitle");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context, 234324243, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, endTime, pendingIntent);
     }
 
     private void showMoreOptions(ImageButton moreBtn, String uid, String myUid, final String pId) {

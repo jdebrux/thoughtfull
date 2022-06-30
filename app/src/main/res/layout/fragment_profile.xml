@@ -23,13 +23,14 @@
                 android:fontFamily="@font/quicksand_bold"
                 android:text="Profile"
                 android:textColor="@color/colorWhite"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_below="@id/profileTv"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
+                android:layout_below="@id/profileTv"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/layout_bg"
@@ -57,8 +58,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
-                        android:textColor="@color/colorWhite"
                         android:fontFamily="@font/quicksand_bold"
+                        android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
 
                     <TextView
@@ -73,18 +74,68 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:layout_marginEnd="25dp">
+                    android:layout_marginEnd="25dp"
+                    android:gravity="end">
 
                     <ImageButton
                         android:id="@+id/editBtn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/ic_edit"/>
+                        android:background="@drawable/ic_edit" />
                 </LinearLayout>
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/howToBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:width="350dp"
+                android:text="How to" />
+
+            <TextView
+                android:id="@+id/greatfullTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:text="What are you gratefull for today?"
+                android:layout_below="@id/howToBtn"
+                android:layout_margin="15dp"
+                android:gravity="start"/>
+
+            <EditText
+                android:id="@+id/descriptionEt"
+                android:layout_marginHorizontal="5dp"
+                android:padding="10dp"
+                android:hint="Enter Text..."
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:inputType="textCapSentences|textMultiLine"
+                android:layout_below="@id/greatfullTv"
+                android:minHeight="120dp"
+                android:gravity="start"
+                android:layout_alignStart="@id/greatfullTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/addGratitudeBtn"
+                android:text="Submit"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descriptionEt"/>
+
+            <Button
+                android:id="@+id/viewGratitudeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Gratitudes"
+                android:layout_marginHorizontal="20dp"
+                android:layout_below="@id/addGratitudeBtn"/>
         </RelativeLayout>
     </ScrollView>
 

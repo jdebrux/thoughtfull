@@ -2,7 +2,9 @@ package com.example.thoughtfull2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -29,8 +31,14 @@ public class LoginActivity extends AppCompatActivity {
     //Declare an instance of FirebaseAuth
     private FirebaseAuth mAuth;
 
+    //constants for sharedPref
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
+
+
     //progress dialog
     ProgressDialog pd;
+    String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordEt = findViewById(R.id.passwordEt);
         mLoginBtn = findViewById(R.id.loginBtn);
 
+        loadData();
+        updateViews();
+
         //login button click
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +71,14 @@ public class LoginActivity extends AppCompatActivity {
                 //input data
                 String email = mEmailEt.getText().toString();
                 String passw = mPasswordEt.getText().toString().trim();
+                saveData(email);
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     //invalid email pattern set error
                     mEmailEt.setError("Invalid Email");
                     mEmailEt.setFocusable(true);
                 } else {
                     //valid email pattern
-                    if (!email.isEmpty() && !passw.isEmpty()){
+                    if (!email.isEmpty() && !passw.isEmpty()) {
                         loginUser(email, passw);
                     }
                 }
@@ -110,6 +122,27 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void saveData(String email) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putString(TEXT, email);
+        editor.apply();
+        Log.d("SAVE", email);
+
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        text = sharedPreferences.getString(TEXT, "");
+        Log.d("LOAD", text);
+    }
+
+    public void updateViews() {
+        mEmailEt.setText(text);
+        Log.d("UPDATE", text);
     }
 
     @Override

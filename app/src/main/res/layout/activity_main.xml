@@ -8,6 +8,13 @@
     android:background="@color/background"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/register_btn"
+        android:src="@drawable/logo" />
+
     <Button
         android:id="@+id/register_btn"
         android:text="Register"

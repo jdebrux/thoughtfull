@@ -7,6 +7,13 @@
     android:background="@color/background"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/loginTv"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,11 +64,13 @@
         android:layout_marginTop="5dp"/>
 
     <TextView
+        android:id="@+id/loginTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/emailTIL"
+        android:layout_centerHorizontal="true"
+        android:text="LOGIN"
         android:textColor="@color/colorWhite"
-        android:text="Login"
-        android:textSize="20sp" />
+        android:textSize="30sp" />
 
 </RelativeLayout>

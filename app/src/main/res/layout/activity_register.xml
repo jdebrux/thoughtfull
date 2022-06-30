@@ -8,12 +8,21 @@
     android:padding="20dp"
     tools:context=".RegisterActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/registerTv"
+        android:src="@drawable/logo" />
+
     <TextView
+        android:id="@+id/registerTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/emailTIL"
         android:layout_centerHorizontal="true"
-        android:text="REGISTER"
+        android:text="Register"
+        android:textColor="@color/colorWhite"
         android:textSize="30sp" />
 
     <com.google.android.material.textfield.TextInputLayout

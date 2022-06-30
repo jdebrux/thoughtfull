@@ -63,11 +63,15 @@
             android:layout_height="wrap_content"
             android:onClick="showDatePickerDialog"/>
 
-        <Button
-            android:id="@+id/voiceMemoBtn"
+        <ToggleButton
+            android:id="@+id/publicToggleBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Voice Memo" />
+            android:layout_marginHorizontal="12dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
+            android:textOn="Public Post"
+            android:textOff="Private Post"/>
 
         <Switch
             android:id="@+id/remindMeSw"

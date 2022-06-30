@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class AdapterPast extends RecyclerView.Adapter<AdapterPast.MyHolder>{
+public class AdapterPast extends RecyclerView.Adapter<AdapterPast.MyHolder> {
 
     Context context;
     List<ModelThoughtPost> postList;
@@ -135,10 +135,10 @@ public class AdapterPast extends RecyclerView.Adapter<AdapterPast.MyHolder>{
     }
 
     private void showMoreOptions(ImageButton moreBtn, String uid, String myUid, final String pId) {
-        PopupMenu popupMenu = new PopupMenu(context,moreBtn, Gravity.END);
+        PopupMenu popupMenu = new PopupMenu(context, moreBtn, Gravity.END);
 
         //the option to delete a post should only be available for the posts of the signed in user
-        if (uid.equals(myUid)){
+        if (uid.equals(myUid)) {
             //add menu items
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete Post");
         }
@@ -148,7 +148,7 @@ public class AdapterPast extends RecyclerView.Adapter<AdapterPast.MyHolder>{
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 int id = menuItem.getItemId();
-                if (id==0){
+                if (id == 0) {
                     //delete is pressed
                     deleteThought(pId);
                 }
@@ -167,10 +167,10 @@ public class AdapterPast extends RecyclerView.Adapter<AdapterPast.MyHolder>{
         fquery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ds.getRef().removeValue(); //removes values from firebase where pId matches
                 }
-                //deleted
+                //deleted successfully
                 Toast.makeText(context, "Your post has been deleted successfully.", Toast.LENGTH_SHORT).show();
                 pd.dismiss();
             }
@@ -188,7 +188,7 @@ public class AdapterPast extends RecyclerView.Adapter<AdapterPast.MyHolder>{
     }
 
     //view holder class
-    class MyHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder {
 
         //ImageView uPictureIv, pImageIv;
         TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pEndTv;

@@ -6,7 +6,9 @@
         <entry key="app/src/main/res/drawable-v24/gradient.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/past_bg.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/post_bg.xml" value="0.2285" />
+        <entry key="app/src/main/res/drawable-v24/public_bg.xml" value="0.1745" />
         <entry key="app/src/main/res/drawable/circle_bg.xml" value="0.1135" />
+        <entry key="app/src/main/res/drawable/gratitude_bg.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_archive_black.xml" value="0.2285" />
         <entry key="app/src/main/res/drawable/ic_baseline_archive.xml" value="0.2285" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.2285" />
@@ -20,21 +22,27 @@
         <entry key="app/src/main/res/drawable/selector.xml" value="0.2155" />
         <entry key="app/src/main/res/font/font.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/font/quicksand.xml" value="0.31666666666666665" />
-        <entry key="app/src/main/res/layout/activity_add_thought.xml" value="0.29004329004329005" />
+        <entry key="app/src/main/res/layout/activity_add_thought.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.35507246376811596" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.189209726443769" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.17703749062358465" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.24176483154296868" />
+        <entry key="app/src/main/res/layout/activity_view_gratitude.xml" value="0.4902435302734376" />
+        <entry key="app/src/main/res/layout/activity_web_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_add.xml" value="0.28817291259765626" />
         <entry key="app/src/main/res/layout/fragment_current.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/fragment_past.xml" value="0.20516304347826086" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.18881743808962265" />
         <entry key="app/src/main/res/layout/fragment_temp.xml" value="0.14361702127659576" />
+        <entry key="app/src/main/res/layout/gratitude_rv_item.xml" value="0.40502777099609377" />
         <entry key="app/src/main/res/layout/popup.xml" value="0.1" />
         <entry key="app/src/main/res/layout/row_past.xml" value="1.226462886573416" />
+        <entry key="app/src/main/res/layout/row_public.xml" value="0.26902173913043476" />
         <entry key="app/src/main/res/layout/row_thoughts.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/menu/menu_nav.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1545" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1545" />
       </map>
     </option>
   </component>

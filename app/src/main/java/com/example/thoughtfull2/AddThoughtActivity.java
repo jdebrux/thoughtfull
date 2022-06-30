@@ -1,5 +1,6 @@
 package com.example.thoughtfull2;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -41,8 +42,9 @@ public class AddThoughtActivity extends AppCompatActivity {
     ActionBar actionBar;
 
     //views
-    EditText titleEt, descriptionEt, endDateET, endTimeET ;
-    Button uploadBtn, voiceMemoBtn;
+    EditText titleEt, descriptionEt, endDateET, endTimeET;
+    Button uploadBtn, publicToggleBtn;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch remindMeSw, lockSw;
 
     //user info
@@ -98,10 +100,17 @@ public class AddThoughtActivity extends AppCompatActivity {
         descriptionEt = findViewById(R.id.descriptionEt);
         endTimeET = findViewById(R.id.endTimeET);
         endDateET = findViewById(R.id.endDateET);
-        voiceMemoBtn = findViewById(R.id.voiceMemoBtn);
+        publicToggleBtn = findViewById(R.id.publicToggleBtn);
         remindMeSw = findViewById(R.id.remindMeSw);
         lockSw = findViewById(R.id.lockSw);
         uploadBtn = findViewById(R.id.pUploadBtn);
+
+        publicToggleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         //upload button click listener
         uploadBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,12 +121,15 @@ public class AddThoughtActivity extends AppCompatActivity {
                 String description = descriptionEt.getText().toString().trim();
                 String endTime = endTimeET.getText().toString().trim();
                 String endDate = endDateET.getText().toString().trim();
+                String publicToggle = (String) publicToggleBtn.getText();
 
                 String endDateTime = String.valueOf(endCal.getTimeInMillis());
 
                 Boolean remindMe = remindMeSw.isChecked();
                 Boolean lockThought = lockSw.isChecked();
-                //add voice memo info, switch values
+
+                //add voice memo info
+
 
                 if (TextUtils.isEmpty(title)) {
                     Toast.makeText(AddThoughtActivity.this, "Enter a Title...", Toast.LENGTH_SHORT).show();
@@ -133,13 +145,13 @@ public class AddThoughtActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(endTime)) {
                     Toast.makeText(AddThoughtActivity.this, "Enter an End Time...", Toast.LENGTH_SHORT).show();
                 } else {
-                    uploadData(title, description, endDateTime, remindMe, lockThought);
+                    uploadData(title, description, endDateTime, remindMe, lockThought, publicToggle);
                 }
             }
         });
     }
 
-    private void uploadData(final String title, final String description, final String endDateTime, Boolean remindMe, Boolean lockThought) {
+    private void uploadData(final String title, final String description, final String endDateTime, Boolean remindMe, Boolean lockThought, String publicToggle) {
         pd.setMessage("Publishing Post...");
         pd.show();
 
@@ -162,6 +174,7 @@ public class AddThoughtActivity extends AppCompatActivity {
         hashMap.put("startTime", timeStamp);
         hashMap.put("pRemind", String.valueOf(remindMe));
         hashMap.put("pLocked", String.valueOf(lockThought));
+        hashMap.put("pPublic", publicToggle);
 
         //path to storage post data
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
@@ -250,17 +263,17 @@ public class AddThoughtActivity extends AppCompatActivity {
         int minute = c.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
 
-           @Override
-           public void onTimeSet(TimePicker timePicker, int hour, int min) {
-               endCal.set(Calendar.HOUR, hour);
-               endCal.set(Calendar.MINUTE, min);
-               endCal.set(Calendar.SECOND, 0);
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                endCal.set(Calendar.HOUR, hour);
+                endCal.set(Calendar.MINUTE, min);
+                endCal.set(Calendar.SECOND, 0);
 
-               endTimeET.setText(hour + ":" + min);
+                endTimeET.setText(hour + ":" + min);
 
-           }
-       }, hour, minute, true);
-       timePickerDialog.show();
+            }
+        }, hour, minute, true);
+        timePickerDialog.show();
     }
 
     public void showDatePickerDialog(View v) {
@@ -281,4 +294,5 @@ public class AddThoughtActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
         datePickerDialog.show();
     }
+
 }

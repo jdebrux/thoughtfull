@@ -2,29 +2,45 @@ package com.example.thoughtfull2;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.SearchView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.thoughtfull2.adapters.AdapterPublic;
+import com.example.thoughtfull2.models.ModelThoughtPost;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TempFragment extends Fragment {
 
-    //init view
-    private WebView webView;
-
+    //firebase auth
     FirebaseAuth firebaseAuth;
+
+    RecyclerView recyclerView;
+    List<ModelThoughtPost> thoughtList;
+    AdapterPublic adapterPublic;
+    String uid;
 
     public TempFragment() {
         // Required empty public constructor
@@ -34,19 +50,107 @@ public class TempFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_temp, container, false);
+        View view = inflater.inflate(R.layout.fragment_current, container, false);
 
-        webView = view.findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
+        //init
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://www.starbucks.co.uk");
+        //recycler view and its properties
+        recyclerView = view.findViewById(R.id.thoughtRecyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        //show newest post first, for this load from next
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+        //set layout to recyclerview
+        recyclerView.setLayoutManager(layoutManager);
 
+        //init post list
+        thoughtList = new ArrayList<>();
+
+        checkUserStatus();
+        loadThoughts();
+
+        //init view from xml
         return view;
     }
 
+    private void loadThoughts() {
+        //path of all posts
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
 
+        //Get all public posts
+        Query query = ref.orderByChild("pPublic").equalTo("Public Post");
+
+        //get all data from this ref
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                thoughtList.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    ModelThoughtPost modelThought = ds.getValue(ModelThoughtPost.class);
+
+                    thoughtList.add(modelThought);
+
+                    //adapter
+                    adapterPublic = new AdapterPublic(getActivity(), thoughtList);
+                    //set adapter to recyclerview
+                    recyclerView.setAdapter(adapterPublic);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void searchPosts(final String searchQuery) {
+        //path of all posts
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+
+        //uid is used to get list of posts from that user
+        Query query = ref.orderByChild("pPublic").equalTo("Public Post");
+
+        //get all data from this ref
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                thoughtList.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    ModelThoughtPost modelThoughtPost = ds.getValue(ModelThoughtPost.class);
+
+                    if (modelThoughtPost.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                            modelThoughtPost.getDescription().toLowerCase().contains(searchQuery.toLowerCase())) {
+                        thoughtList.add(modelThoughtPost);
+                    }
+
+                    //adapter
+                    adapterPublic = new AdapterPublic(getActivity(), thoughtList);
+                    //set adapter to recyclerview
+                    recyclerView.setAdapter(adapterPublic);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //in case of error
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        checkUserStatus();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkUserStatus();
+    }
 
     private void checkUserStatus() {
         //get current user
@@ -55,6 +159,7 @@ public class TempFragment extends Fragment {
             //user is signed in stay here
             //set email of logged in user
             //mProfileTv.setText(user.getEmail());
+            uid = user.getUid();
         } else {
             //user not signed in, go to main activity
             startActivity(new Intent(getActivity(), MainActivity.class));
@@ -73,8 +178,36 @@ public class TempFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //inflating menu
         inflater.inflate(R.menu.menu_main, menu);
-        menu.findItem(R.id.action_search).setVisible(false);
-        menu.findItem(R.id.action_add_post).setVisible(false);
+
+        //searchview to search posts by title or description
+        MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        //search listener
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //called when the user presses the search button
+                if (!TextUtils.isEmpty(s)) {
+                    searchPosts(s);
+                } else {
+                    loadThoughts();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                //called as user presses each character
+                if (!TextUtils.isEmpty(s)) {
+                    searchPosts(s);
+                } else {
+                    loadThoughts();
+                }
+                return false;
+            }
+        });
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

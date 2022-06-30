@@ -1,8 +1,6 @@
 package com.example.thoughtfull2;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -21,6 +19,7 @@ public class DashboardActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +44,7 @@ public class DashboardActivity extends AppCompatActivity {
         ft1.replace(R.id.content, fragment1, "");
         ft1.commit();
 
+        checkUserStatus();
 
     }
 
@@ -53,7 +53,7 @@ public class DashboardActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     //handle item clicks
-                    switch (menuItem.getItemId()){
+                    switch (menuItem.getItemId()) {
                         case R.id.nav_current:
                             //home fragment
                             actionBar.setTitle("Current Thoughts"); //change actionbar title
@@ -73,7 +73,7 @@ public class DashboardActivity extends AppCompatActivity {
                             return true;
                         case R.id.nav_add_thought:
                             //users fragment
-                            actionBar.setTitle("How to"); //change actionbar title
+                            actionBar.setTitle("Public Thoughts"); //change actionbar title
                             TempFragment fragment3 = new TempFragment();
                             FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
                             ft3.replace(R.id.content, fragment3, "");
@@ -92,19 +92,21 @@ public class DashboardActivity extends AppCompatActivity {
                 }
             };
 
-    private void checkUserStatus(){
+    private void checkUserStatus() {
         //get current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null){
+        if (user != null) {
             //user is signed in stay here
-            //set email of logged in user
-            //mProfileTv.setText(user.getEmail());
-        }
-        else{
+        } else {
             //user not signed in, go to main activity
             startActivity(new Intent(DashboardActivity.this, MainActivity.class));
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @Override
@@ -113,4 +115,5 @@ public class DashboardActivity extends AppCompatActivity {
         checkUserStatus();
         super.onStart();
     }
+
 }

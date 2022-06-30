@@ -16,4 +16,9 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_add_circle_outline"/>
 
+    <item android:id="@+id/action_share"
+        android:title="thoughfull"
+        app:showAsAction="always"
+        android:icon="@drawable/logo"/>
+
 </menu>

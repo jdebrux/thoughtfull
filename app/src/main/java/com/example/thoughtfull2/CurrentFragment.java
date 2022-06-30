@@ -3,7 +3,6 @@ package com.example.thoughtfull2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,7 +100,7 @@ public class CurrentFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -146,8 +145,6 @@ public class CurrentFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             //user is signed in stay here
-            //set email of logged in user
-            //mProfileTv.setText(user.getEmail());
             uid = user.getUid();
         } else {
             //user not signed in, go to main activity

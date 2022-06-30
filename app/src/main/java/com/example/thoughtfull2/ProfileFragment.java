@@ -20,10 +20,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,11 +62,17 @@ public class ProfileFragment extends Fragment {
     private static final int IMAGE_PICK_GALLERY_CODE = 300;
     private static final int IMAGE_PICK_CAMERA_CODE = 400;
 
+    //database handler
+    private DatabaseHandler dbHandler;
+
     //firebase
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
+    //share action provider
+    ShareActionProvider shareActionProvider;
 
     //storage
     StorageReference storageReference;
@@ -76,6 +84,8 @@ public class ProfileFragment extends Fragment {
     ImageView profilePicIv;
     TextView nameTv, emailTv, phoneTv;
     ImageButton editBtn;
+    Button howToBtn, addGratitudeBtn, viewGratitudeBtn;
+    EditText descriptionEt;
 
     //Progress Dialog
     ProgressDialog pd;
@@ -124,6 +134,13 @@ public class ProfileFragment extends Fragment {
         nameTv = view.findViewById(R.id.nameTv);
         emailTv = view.findViewById(R.id.emailTv);
         editBtn = view.findViewById(R.id.editBtn);
+        howToBtn = view.findViewById(R.id.howToBtn);
+        descriptionEt = view.findViewById(R.id.descriptionEt);
+        addGratitudeBtn = view.findViewById(R.id.addGratitudeBtn);
+        viewGratitudeBtn = view.findViewById(R.id.viewGratitudeBtn);
+
+        //init database handler
+        dbHandler = new DatabaseHandler(getContext());
 
         //init progress dialog
         pd = new ProgressDialog(getActivity());
@@ -166,7 +183,38 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        howToBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), WebViewActivity.class));
+            }
+        });
+
+        addGratitudeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //get description
+                String description = descriptionEt.getText().toString();
+                if (description.isEmpty()) {
+                    Toast.makeText(getActivity(), "Please Enter something...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                dbHandler.addNewGratitude(description);
+                Toast.makeText(getActivity(), "Well done for being grateful!", Toast.LENGTH_SHORT).show();
+                descriptionEt.setText("");
+            }
+        });
+
+        viewGratitudeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewGratitudes.class);
+                startActivity(intent);
+            }
+        });
+
         checkUserStatus();
+
 
         //init view from xml
         return view;
@@ -468,7 +516,7 @@ public class ProfileFragment extends Fragment {
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                             String child = ds.getKey();
-                                            dataSnapshot.getRef().child(child).child("uDp").setValue(downloadUri.toString());
+                                            dataSnapshot.getRef().child(child).child("uPp").setValue(downloadUri.toString());
                                         }
                                     }
 
@@ -522,7 +570,6 @@ public class ProfileFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             //user is signed in stay here
-            //set email of logged in user
             uid = user.getUid();
         } else {
             //user not signed in, go to main activity
